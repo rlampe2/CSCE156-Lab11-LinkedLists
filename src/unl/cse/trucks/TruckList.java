@@ -3,14 +3,18 @@ package unl.cse.trucks;
 public class TruckList {
 	
 	//TODO: add the head of your list here
+	private TruckListNode head;
+	private int size = 0;
 
+	
+	
 	/**
 	 * This function returns the size of the list, the number of
 	 * elements currently stored in it.
 	 * @return
 	 */
 	public int getSize() { 
-    	throw new UnsupportedOperationException("Not yet implemented.");
+    	return this.size;
 	}
 
 	/**
@@ -18,7 +22,13 @@ public class TruckList {
 	 * empty list.
 	 */
     public void clear() {
-    	throw new UnsupportedOperationException("Not yet implemented.");
+    	//Call remove for clear
+    	//Head is an edge case
+    	int temp = size;
+    	for(int i = 0; i < temp; i++) {
+    		remove(0);
+    	}
+
     }
 
     /**
@@ -27,7 +37,10 @@ public class TruckList {
      * @param t
      */
     public void addToStart(Truck t) {
-    	throw new UnsupportedOperationException("Not yet implemented.");
+    	TruckListNode newNode = new TruckListNode(t);
+    	newNode.setNext(head);
+    	head = newNode;
+    	size++;
     }
 
     /**
@@ -36,7 +49,25 @@ public class TruckList {
      * @param t
      */
     public void addToEnd(Truck t) {
-    	throw new UnsupportedOperationException("Not yet implemented.");
+    	TruckListNode newNode = new TruckListNode(t);
+    	/*//Get to end of the list
+    	TruckListNode loopingNode = head;
+    	while(loopingNode.getNext() != null) {
+    		loopingNode = loopingNode.getNext();
+    	}
+    	loopingNode.setNext(newNode);
+    	size++;*/
+    	
+    	//Fancy it up:
+    	if(size == 0) {
+    		head = newNode;
+    	}else {
+    		
+    	TruckListNode endNode = getTruckListNode(size -1);
+    	endNode.setNext(newNode);
+    	}
+    	size++;
+
     }
 
     /**
@@ -46,7 +77,30 @@ public class TruckList {
      * @param position
      */
     public void remove(int position) {
-    	throw new UnsupportedOperationException("Not yet implemented.");
+    	//Make the node before point to the node after:
+    //	TruckListNode previousNode = getTruckListNode(position -1);
+    //	previousNode.setNext(getTruckListNode(position + 1));
+    	
+    	if(position < 0 || position > size -1) {
+    		throw new IndexOutOfBoundsException ("Postion out of Bounds");
+    	}
+    	
+    	//edge cases:
+    	if(position == 0) {
+    		if(size == 1) {
+    			head = null;
+    		}else {
+    		head = getTruckListNode(1);
+    		}
+    	}else if(position == size -1) {
+    		getTruckListNode(position - 1).setNext(null);
+    	}
+    	else {
+    	
+    	getTruckListNode(position - 1).setNext(getTruckListNode(position + 1));
+    	}
+    	
+    	size --;
     }
     
     /**
@@ -57,8 +111,20 @@ public class TruckList {
      * @return
      */
     private TruckListNode getTruckListNode(int position) {
-    	throw new UnsupportedOperationException("Not yet implemented.");
-    }
+    	//Assuming that position means index.
+    	if(position < 0 || position > size -1) {
+    		throw new IndexOutOfBoundsException ("Postion out of Bounds");
+    	}
+    	
+    	
+    	TruckListNode loopingNode = head;
+    	for(int i = 0; i < position; i++) {
+    		loopingNode = loopingNode.getNext();
+    	}
+    	
+    	return loopingNode;
+    	
+        }
 
     /**
      * Returns the {@link Truck} element stored at the given 
@@ -67,15 +133,24 @@ public class TruckList {
      * @return
      */
     public Truck getTruck(int position) {
-    	throw new UnsupportedOperationException("Not yet implemented.");    	
+    	return getTruckListNode(position).getTruck();
     }
 
     /**
      * Prints this list to the standard output.
      */
     public void print() {
-    	throw new UnsupportedOperationException("Not yet implemented.");
+    	System.out.println("The list of trucks: [");
+    	
+    	for(int i = 0; i < size; i++) {
+    		
+    		
+    		System.out.println(getTruck(i));
+    	}
+    	
+    	System.out.println("] End of list. ");
     }
 
+    
 }
 
