@@ -101,7 +101,7 @@ public class Truck {
     public static Truck createRandomTruck() {
         Truck.Builder randomTruck = new Truck.Builder();
 
-        String licensePlate = RandomStringUtils.randomAlphabetic(3) + " "
+        String licensePlate = RandomStringUtils.randomAlphabetic(3).toUpperCase() + " "
                 + RandomStringUtils.randomNumeric(3);
         java.util.Random randomNumberGenerator = new java.util.Random();
 
